@@ -102,23 +102,23 @@ class RegisterFormState extends State<RegisterForm> {
                     return AlertDialog(
                       // title: new Text("AlertDialog Class"),
                       content: new Text("user นี้มีอยู่ใน ระบบแล้ว"),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text("Ok"),
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-                    );
-                  }
-                );
-              } else{
-                Navigator.pop(context);
-              }
-            },
-          )
-          )
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text("Ok"),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                          );
+                        }
+                      );
+                    } else{
+                      Navigator.pop(context);
+                    }
+                  },
+                )
+              )
         ],
       ),
     );
