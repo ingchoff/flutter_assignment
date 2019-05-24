@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
 	@override
@@ -19,6 +20,21 @@ class LoginFormState extends State<LoginForm> {
     textValue1.dispose();
     textValue2.dispose();
     super.dispose();
+  }
+
+  Future<void> signIn() async {
+    if(textValue1.text.isEmpty||textValue2.text.isEmpty){
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text('กรุณา ระบุ user or password')));
+    } else if(textValue1.text == 'admin'&&textValue2.text == 'admin'){
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('user', textValue1.text);
+      Navigator.pushNamed(context, '/main');
+    } else if(textValue1.text != 'admin'&&textValue2.text != 'admin'){
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('user', textValue1.text);
+      Navigator.pushNamed(context, '/main');
+      // Scaffold.of(context).showSnackBar(SnackBar(content: Text('user or password ไม่ถูกต้อง')));
+    }
   }
   
   @override
@@ -58,15 +74,7 @@ class LoginFormState extends State<LoginForm> {
           Padding(
             padding: EdgeInsets.only(bottom: 10),
             child: RaisedButton(
-              onPressed: (){
-                if(textValue1.text.isEmpty||textValue2.text.isEmpty){
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('กรุณา ระบุ user or password')));
-                } else if(textValue1.text == 'admin'&&textValue2.text == 'admin'){
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('user or password ไม่ถูกต้อง')));
-                } else{
-                  Navigator.pushNamed(context, '/main');
-                }
-              },
+              onPressed: signIn,
               child: Text('LOGIN'),
             ),
           ),

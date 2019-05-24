@@ -1,56 +1,61 @@
 import 'package:flutter/material.dart';
 
-class MainPage extends StatelessWidget {
+import 'NewFeed.dart';
+import 'Profile.dart';
+
+class MainPage extends StatefulWidget {
+  
+  @override
+  State<StatefulWidget> createState() {
+    return _MainPageState();
+  }
+}
+
+class _MainPageState extends State<MainPage> {
+  int index = 0;
+  List<Widget> _children = [
+      NewFeed(),
+      Profile()
+    ];
+
+  void _navHandler(int index) {
+    setState(() {
+      this.index = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-    final first = new Center(
-      child: new Text('Home', textAlign: TextAlign.center, style: new TextStyle(color: Colors.grey,fontSize: 30,fontWeight: FontWeight.bold)),
-    );
-
-    final second = new Center(
-      child: new Text('Notify', textAlign: TextAlign.center , style: new TextStyle(color: Colors.grey,fontSize: 30,fontWeight: FontWeight.bold)),
-    );
-
-    final third = new Center(
-      child: new Text('Map', textAlign: TextAlign.center, style: new TextStyle(color: Colors.grey,fontSize: 30,fontWeight: FontWeight.bold)),
-    );
-
-    final fouth = new Center(
-      child: new Text('Profile', textAlign: TextAlign.center, style: new TextStyle(color: Colors.grey,fontSize: 30,fontWeight: FontWeight.bold)),
-    );
-    
-    final fifth = new Center(
-      child: new Text('Setup', textAlign: TextAlign.center, style: new TextStyle(color: Colors.grey,fontSize: 30,fontWeight: FontWeight.bold)),
-    );
-
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          bottomNavigationBar: new Material(
-            color: Colors.blue,
-            child: new TabBar(
-              tabs: <Widget>[
-                Tab(icon: Icon(Icons.dashboard)),
-                Tab(icon: Icon(Icons.notifications)),
-                Tab(icon: Icon(Icons.explore)),
-                Tab(icon: Icon(Icons.person)),
-                Tab(icon: Icon(Icons.settings))
-              ],
-            ),
+    return Scaffold(
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Theme.of(context).primaryColor,
           ),
-          appBar: AppBar(
-            title: Text('Home'),
-            centerTitle: true,
-          ),
-          body: TabBarView(
-            children: <Widget>[
-              first, second, third, fouth, fifth
+          child: BottomNavigationBar(
+            currentIndex: index,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home), title: Text('Home')),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                title: Text('Profile'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                title: Text('Map')
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                title: Text('Profile')
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                title: Text('Setting')
+              ),
             ],
-          ),
+            onTap: _navHandler,
           ),
         ),
-      );
-    }
+        body: _children[index]);
+  }
 }
